@@ -1,0 +1,19 @@
+datasource db {
+    provider = "mysql"
+    url      = env("DATABASE_URL")
+}
+
+generator client {
+    provider             = "prisma-client-py"
+    interface            = "asyncio"
+    recursive_type_depth = 5
+}
+
+model user {
+    id       String @unique(map: "user_id_UNIQUE") @default(cuid())
+    username String @unique(map: "user_username_UNIQUE") @db.VarChar(120)
+    email    String @unique(map: "user_email_UNIQUE") @db.VarChar(120)
+    password String @db.VarChar(255)
+
+    @@index([id], map: "user_idx")
+}
